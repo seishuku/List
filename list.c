@@ -9,7 +9,7 @@
 #define FREE(p) { if(p) { free(p); p=NULL; } }
 #endif
 
-bool List_Init(List_t *List, size_t Stride, size_t Count, void *Data)
+bool List_Init(List_t *List, const size_t Stride, const size_t Count, const void *Data)
 {
 	if(List==NULL)
 		return false;
@@ -90,13 +90,13 @@ bool List_Add(List_t *List, void *Data)
 	return true;
 }
 
-bool List_Del(List_t *List, size_t Index)
+bool List_Del(List_t *List, const size_t Index)
 {
 	if(List==NULL)
 		return false;
 
 	// Check buffer bounds
-	if(Index*List->Stride>List->Size)
+	if((Index*List->Stride)>=List->Size)
 		return false;
 
 	// Shift data from index to end, overwriting the item to be removed
@@ -107,13 +107,13 @@ bool List_Del(List_t *List, size_t Index)
 	return true;
 }
 
-void List_GetPointer(List_t *List, size_t Index, void **Pointer)
+void List_GetPointer(List_t *List, const size_t Index, void **Pointer)
 {
 	if(List==NULL)
 		return;
 
 	// Check buffer bounds
-	if(Index*List->Stride>List->Size)
+	if((Index*List->Stride)>=List->Size)
 		return;
 
 	// Set pointer based on index and stride
@@ -121,18 +121,35 @@ void List_GetPointer(List_t *List, size_t Index, void **Pointer)
 		*Pointer=(void *)&List->Buffer[List->Stride*Index];
 }
 
-void List_GetCopy(List_t *List, size_t Index, void *Data)
+void List_GetCopy(List_t *List, const size_t Index, void *Data)
 {
 	if(List==NULL)
 		return;
 
 	// Check buffer bounds
-	if(Index*List->Stride>List->Size)
+	if((Index*List->Stride)>=List->Size)
 		return;
 
 	// Copy data based on index and stride
 	if(Data)
 		memcpy(Data, &List->Buffer[List->Stride*Index], List->Stride);
+}
+
+size_t List_GetCount(List_t *List)
+{
+	// Count=size/stride
+	if(List)
+		return List->Size/List->Stride;
+
+	return 0;
+}
+
+void *List_GetBufferPointer(List_t *List)
+{
+	if(List)
+		return (void *)List->Buffer;
+
+	return NULL;
 }
 
 void List_Clear(List_t *List)
