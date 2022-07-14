@@ -107,18 +107,17 @@ bool List_Del(List_t *List, const size_t Index)
 	return true;
 }
 
-void List_GetPointer(List_t *List, const size_t Index, void **Pointer)
+void *List_GetPointer(List_t *List, const size_t Index)
 {
 	if(List==NULL)
-		return;
+		return NULL;
 
 	// Check buffer bounds
 	if((Index*List->Stride)>=List->Size)
-		return;
+		return NULL;
 
-	// Set pointer based on index and stride
-	if(Pointer)
-		*Pointer=(void *)&List->Buffer[List->Stride*Index];
+	// Return pointer based on index and stride
+	return (void *)&List->Buffer[List->Stride*Index];
 }
 
 void List_GetCopy(List_t *List, const size_t Index, void *Data)

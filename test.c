@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 	float one=1.0f;
 	float two=2.0f;
 	float three=3.0f;
-	float *ptr;
+	float *ptr=NULL;
 
 	// Initalize list, pre-allocate 10 items
 	List_Init(&List, sizeof(float), 10, NULL);
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 
 	for(int i=0;i<List_GetCount(&List);i++)
 	{
-		List_GetPointer(&List, i, (void **)&ptr);
+		ptr=List_GetPointer(&List, i);
 		printf("Index: %d, Data: %f\n", i, *ptr);
 	}
 
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 	List_Del(&List, 5);
 
 	// Set the third float in the list to 123.321
-	List_GetPointer(&List, 2, (void **)&ptr);
+	ptr=List_GetPointer(&List, 2);
 	*ptr=123.321f;
 
 	printf("\n");
@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 	{
 		float *ptr=NULL;
 
-		List_GetPointer(&List, i, (void **)&ptr);
+		ptr=List_GetPointer(&List, i);
 		printf("Index: %d, Data: %f\n", i, *ptr);
 	}
 
