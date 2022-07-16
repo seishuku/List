@@ -43,8 +43,18 @@ int main(int argc, char **argv)
 
 	for(int i=0;i<List_GetCount(&List);i++)
 	{
-		float *ptr=NULL;
+		float *ptr=List_GetPointer(&List, i);
+		printf("Index: %d, Data: %f\n", i, *ptr);
+	}
 
+	printf("\nList size: %lld bytes\nActual buffer size: %lld bytes\n", List.Size, List.bufSize);
+
+	List_ShrinkFit(&List);
+
+	printf("\nAfter shrink fit:\nList size: %lld bytes\nActual buffer size: %lld bytes\n", List.Size, List.bufSize);
+
+	for(int i=0;i<List_GetCount(&List);i++)
+	{
 		ptr=List_GetPointer(&List, i);
 		printf("Index: %d, Data: %f\n", i, *ptr);
 	}
