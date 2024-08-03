@@ -5,61 +5,61 @@
 
 int main(int argc, char **argv)
 {
-	List_t List;
+	List_t list;
 	float one=1.0f;
 	float two=2.0f;
 	float three=3.0f;
 	float *ptr=NULL;
 
 	// Initalize list, pre-allocate 10 items
-	List_Init(&List, sizeof(float), 10, NULL);
+	List_Init(&list, sizeof(float), 10, NULL);
 
 	// Populate list
-	List_Add(&List, &one);
-	List_Add(&List, &two);
-	List_Add(&List, &three);
-	List_Add(&List, &one);
-	List_Add(&List, &two);
-	List_Add(&List, &three);
-	List_Add(&List, &one);
-	List_Add(&List, &two);
-	List_Add(&List, &three);
-	List_Add(&List, &one);
+	List_Add(&list, &one);
+	List_Add(&list, &two);
+	List_Add(&list, &three);
+	List_Add(&list, &one);
+	List_Add(&list, &two);
+	List_Add(&list, &three);
+	List_Add(&list, &one);
+	List_Add(&list, &two);
+	List_Add(&list, &three);
+	List_Add(&list, &one);
 
-	for(int i=0;i<List_GetCount(&List);i++)
+	for(int i=0;i<List_GetCount(&list);i++)
 	{
-		ptr=List_GetPointer(&List, i);
+		ptr=List_GetPointer(&list, i);
 		printf("Index: %d, Data: %f\n", i, *ptr);
 	}
 
 	// Remove the second "three"
-	List_Del(&List, 5);
+	List_Del(&list, 5);
 
 	// Set the third float in the list to 123.321
-	ptr=List_GetPointer(&List, 2);
+	ptr=List_GetPointer(&list, 2);
 	*ptr=123.321f;
 
 	printf("\n");
 
-	for(int i=0;i<List_GetCount(&List);i++)
+	for(int i=0;i<List_GetCount(&list);i++)
 	{
-		float *ptr=List_GetPointer(&List, i);
+		float *ptr=List_GetPointer(&list, i);
 		printf("Index: %d, Data: %f\n", i, *ptr);
 	}
 
-	printf("\nList size: %lld bytes\nActual buffer size: %lld bytes\n", List.Size, List.bufSize);
+	printf("\nList size: %lld bytes\nActual buffer size: %lld bytes\n", list.size, list.bufSize);
 
-	List_ShrinkFit(&List);
+	List_ShrinkFit(&list);
 
-	printf("\nAfter shrink fit:\nList size: %lld bytes\nActual buffer size: %lld bytes\n", List.Size, List.bufSize);
+	printf("\nAfter shrink fit:\nList size: %lld bytes\nActual buffer size: %lld bytes\n", list.size, list.bufSize);
 
-	for(int i=0;i<List_GetCount(&List);i++)
+	for(int i=0;i<List_GetCount(&list);i++)
 	{
-		ptr=List_GetPointer(&List, i);
+		ptr=List_GetPointer(&list, i);
 		printf("Index: %d, Data: %f\n", i, *ptr);
 	}
 
-	List_Destroy(&List);
+	List_Destroy(&list);
 
 	return 0;
 }
